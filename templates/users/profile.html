@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h2>User Profile</h2>
+            </div>
+            <div class="card-body">
+                <h3>{{ user.username }}</h3>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Voter ID:</strong> {{ user.profile.voter_id }}</p>
+                {% if user.profile.phone_number %}
+                <p><strong>Phone:</strong> {{ user.profile.phone_number }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h2>Your Voting History</h2>
+            </div>
+            <div class="card-body">
+                {% if user.vote_set.all %}
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Election</th>
+                                <th>Candidate</th>
+                                <th>Date</th>
+                                <th>Verification Code</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for vote in user.vote_set.all %}
+                            <tr>
+                                <td>{{ vote.election.title }}</td>
+                                <td>{{ vote.candidate.name }}</td>
+                                <td>{{ vote.timestamp|date:"F d, Y H:i" }}</td>
+                                <td><code>{{ vote.verification_code }}</code></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="alert alert-info">
+                        You haven't voted in any election yet.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

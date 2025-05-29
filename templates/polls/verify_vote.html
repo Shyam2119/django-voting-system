@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Verify Vote{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h2>Verify Your Vote</h2>
+    </div>
+    <div class="card-body">
+        <p class="lead">Enter your verification code to confirm that your vote was properly recorded.</p>
+        
+        <form method="POST" class="mb-4">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <input type="text" name="verification_code" class="form-control" placeholder="Enter verification code" required>
+                <button class="btn btn-primary" type="submit">Verify</button>
+            </div>
+        </form>
+        
+        {% if verified %}
+            <div class="alert alert-success">
+                <h4 class="alert-heading">Vote Verified!</h4>
+                <p>Your vote has been successfully verified with the following details:</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <p><strong>Election:</strong> {{ vote.election.title }}</p>
+                    <p><strong>Candidate:</strong> {{ vote.candidate.name }}</p>
+                    <p><strong>Date/Time:</strong> {{ vote.timestamp|date:"F d, Y H:i:s" }}</p>
+                    <p><strong>Verification Code:</strong> <code>{{ vote.verification_code }}</code></p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

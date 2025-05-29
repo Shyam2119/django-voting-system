@@ -1,0 +1,24 @@
+/* Custom styles for the voting system */
+.card-header {
+    font-weight: 500;
+}
+
+.candidate-card {
+    transition: transform 0.2s ease;
+}
+
+.candidate-card:hover {
+    transform: translateY(-5px);
+}
+
+.verification-code {
+    font-family: monospace;
+    font-size: 1.2em;
+}
+
+.vote-count {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #3498db;
+    text-align: center;
+}

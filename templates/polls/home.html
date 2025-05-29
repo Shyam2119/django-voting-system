@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="jumbotron bg-light p-5 rounded-3 mb-4">
+    <h1 class="display-4">Welcome to the Online Voting System</h1>
+    <p class="lead">A secure and user-friendly platform for casting your votes.</p>
+    {% if not user.is_authenticated %}
+        <hr class="my-4">
+        <p>Register or login to participate in elections.</p>
+        <a class="btn btn-primary btn-lg me-2" href="{% url 'register' %}" role="button">Register</a>
+        <a class="btn btn-outline-primary btn-lg" href="{% url 'login' %}" role="button">Login</a>
+    {% endif %}
+</div>
+
+{% if active_elections %}
+    <h2 class="mb-4">Active Elections</h2>
+    <div class="row">
+        {% for election in active_elections %}
+            <div class="col-md-4">
+                <div class="card election-card h-100">
+                    <div class="card-header bg-success text-white">
+                        Active Now
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">{{ election.title }}</h3>
+                        <p class="card-text">{{ election.description|truncatewords:20 }}</p>
+                        <p><strong>Ends:</strong> {{ election.end_date|date:"F d, Y H:i" }}</p>
+                        <a href="{% url 'election_detail' election.id %}" class="btn btn-primary">Vote Now</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        <p>There are no active elections at the moment.</p>
+    </div>
+{% endif %}
+
+{% if upcoming_elections %}
+    <h2 class="mt-5 mb-4">Upcoming Elections</h2>
+    <div class="row">
+        {% for election in upcoming_elections %}
+            <div class="col-md-4">
+                <div class="card election-card h-100">
+                    <div class="card-header bg-warning">
+                        Coming Soon
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">{{ election.title }}</h3>
+                        <p class="card-text">{{ election.description|truncatewords:20 }}</p>
+                        <p><strong>Starts:</strong> {{ election.start_date|date:"F d, Y H:i" }}</p>
+                        <p><strong>Ends:</strong> {{ election.end_date|date:"F d, Y H:i" }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% if past_elections %}
+    <h2 class="mt-5 mb-4">Past Elections</h2>
+    <div class="row">
+        {% for election in past_elections %}
+            <div class="col-md-4">
+                <div class="card election-card h-100">
+                    <div class="card-header bg-secondary text-white">
+                        Completed
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">{{ election.title }}</h3>
+                        <p class="card-text">{{ election.description|truncatewords:20 }}</p>
+                        <p><strong>Ended:</strong> {{ election.end_date|date:"F d, Y H:i" }}</p>
+                        <a href="{% url 'election_results' election.id %}" class="btn btn-secondary">View Results</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}
