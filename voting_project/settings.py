@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-9+@na0)6@ru!16hcjd@_a7o^ha@z)21k$1l3&6p%i$a$@$-2se')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = True
 
 ALLOWED_HOSTS = ['*'] 
 
@@ -84,9 +84,7 @@ WSGI_APPLICATION = 'voting_project.wsgi.application'
 
 # Updated database configuration for Render deployment
 DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL', default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'))
-    )
+   'default': dj_database_url.config(default='sqlite:///db.sqlite3')
 }
 
 
